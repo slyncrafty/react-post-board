@@ -1,16 +1,12 @@
 # React Recipe Board — CRUD app with React + Vite + Tailwind
 
-This is a simple recipe board demonstrating a typical CRUD workflow in React. It uses JSON Server as a mock API for creating, reading, updating, and deleting the postings.
-
-- **Link to project**: https://your-live-demo-url.example.com
-
-![App Screenshot](public/screen.png)
-
 ## Introduction
 
-- **Goal**: Showcase a small React app with routing, data fetching, optimistic UI, and forms.
-- **Backend**: `json-server` serves `src/jobs.json` on `http://localhost:8000`.
-- **Frontend**: Vite dev server for React. Vite will print the local URL (typically `http://localhost:5173`).
+This is a simple recipe board demonstrating a typical CRUD workflow in React. It uses Passport Strategy to Authenticate user and API for creating, reading, updating, and deleting the postings. This React app showcases routing, data fetching, UI, forms, using Passport strategy authentication, and connecting to MongoDB to store user profiles and the post data with mongoose to define schemas.
+
+<!-- **Link to project**: https://your-live-demo-url.example.com -->
+
+<!-- ![App Screenshot](public/screen.png) -->
 
 ## Tech Stack
 
@@ -18,25 +14,28 @@ This is a simple recipe board demonstrating a typical CRUD workflow in React. It
 - **Styling**: Tailwind CSS
 - **UI/UX**: React Icons, React Toastify, React Spinners
 - **Tooling**: ESLint
-- **Mock API**: JSON Server
+- **Backend**: Express, Passport.js, cloudinary, MongoDB,
 
 ## Features
 
-- **Browse jobs**: List view and single job view
-- **Create job**: Add new job postings
-- **Edit job**: Update existing postings
-- **Delete job**: Remove postings
+- **Browse Posts**: List all post view and single Post view
+- **Authentication**: Sign up and login
+- **Create Post**: Add new Posts
+- **Update Post**: Update existing postings
+- **Delete Post**: Remove postings
 - **Routing**: Client-side routing for pages and deep links
 - **Feedback**: Loading states and toasts for user actions
 
 ## How It's Made
 
 - **Routing**: Implemented with `react-router-dom` using a main layout (`layouts/MainLayout.jsx`) and page components in `pages/`.
-- **State & Data**: Jobs are fetched from JSON Server (`src/jobs.json`). Simple `fetch` calls handle CRUD operations; loading states use `react-spinners` and notifications use `react-toastify`.
-- **UI**: Tailwind CSS utility classes for rapid styling, reusable UI in `components/` (e.g., `JobListings.jsx`, `JobListing.jsx`, `Card.jsx`, `Navbar.jsx`).
+- **State & Data**: Posts are fetched from database(MongoDB). Simple `fetch` calls handle CRUD operations; loading states use `react-spinners` and notifications use `react-toastify`.
+- **UI**: Tailwind CSS utility classes for rapid styling, reusable UI in `components/`
 - **Dev Experience**: Vite for fast HMR, ESLint for consistency, and a clear folder structure for scalability.
 
 ## Project Structure
+
+**React App**
 
 ```
 src/
@@ -47,26 +46,54 @@ src/
     Card.jsx
     Hero.jsx
     HomeCards.jsx
-    JobListing.jsx
-    JobListings.jsx
-    JobLoader.jsx
     Navbar.jsx
+    PostListing.jsx
+    PostListings.jsx
+    PostLoader.jsx
+    ProtectedRoute.jsx
     Spinner.jsx
-    ViewAllJobs.jsx
+    ViewAllPosts.jsx
+  contexts/
+    AuthContext.jsx
   layouts/
     MainLayout.jsx
   pages/
-    AddJobPage.jsx
-    EditJobPage.jsx
+    AddPostPage.jsx
+    EditPostPage.jsx
     HomePage.jsx
-    JobPage.jsx
-    JobsPage.jsx
+    LoginPage.jsx
     NotFoundPage.jsx
-  App.jsx
+    PostPage.jsx
+    PostsPage.jsx
+    SignUpPage.jsx
   App.css
+  App.jsx
   index.css
-  jobs.json
   main.jsx
+```
+
+**Backend Structure**
+
+```
+react-Posts/
+├── backend/
+│   ├── server.js
+│   ├── config/
+|   |   ├── .env (Add this)
+│   │   ├── database.js
+│   │   └── passport.js
+│   ├── middleware/
+│   |   ├── auth.js
+│   |   ├── cloudinary.js
+|   |   └── multer.js
+│   ├── models/
+│   │   ├── Post.js
+│   │   └── User.js
+│   └── routes/
+│       ├── auth.js
+│       └── posts.js
+├── src/ (React app)
+└── package.json
 ```
 
 ## Getting Started
@@ -77,21 +104,41 @@ src/
 npm install
 ```
 
-### 2) Run the mock API (JSON Server)
+### 2) Add `.env` file with
 
-- Serves `src/jobs.json` at `http://localhost:8000`.
+- Create a `.env` file in config folder and add the following as `key = value`
+  - PORT = 2121 (can be any port example: 3000)
+  - DB_STRING = `your database URI`
+  - CLOUD_NAME = `your cloudinary cloud name`
+  - API_KEY = `your cloudinary api key`
+  - API_SECRET = `your cloudinary api secret`
+
+---
+
+### 3) Run
+
+- **For running both React App and Server**
+
+```bash
+npm run dev:full
+```
+
+---
+
+- Serves backend at `http://localhost:2121`.
 
 ```bash
 npm run server
 ```
 
-### 3) Run the React app (Vite)
-
-- Vite will print the dev URL (commonly `http://localhost:5173`).
+- Run the React app (Vite)
+- Vite will print the dev URL. (`http://localhost:3000`)
 
 ```bash
 npm run dev
 ```
+
+---
 
 Open the printed URL in your browser.
 
@@ -107,8 +154,8 @@ npm run build
 # Preview the production build locally
 npm run preview
 
-# Start JSON Server on port 8000
-npm run server
+# Start both Frontend and Backend Server
+npm run dev:full
 ```
 
 ## Lessons Learned
@@ -120,9 +167,7 @@ npm run server
 
 ## Optimizations
 
-- Add authentication
-- Replace JSON Server with a real API and caching strategy
-- Add search, filters, and pagination to job listings
+- Add search, filters, and pagination to Post listings
 - Implement server-side validation and error handling
 - Code-split routes and lazy-load non-critical pages
 
