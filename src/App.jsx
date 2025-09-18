@@ -8,73 +8,94 @@ import {
 } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
-import JobsPage from './pages/JobsPage';
+import PostsPage from './pages/PostsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import JobPage from './pages/JobPage';
-import AddJobPage from './pages/AddJobPage';
-import EditJobPage from './pages/EditJobPage';
+import PostPage from './pages/PostPage';
+import AddPostPage from './pages/AddPostPage';
+import EditPostPage from './pages/EditPostPage';
 
-import JobLoader from './components/JobLoader';
+import PostLoader from './components/PostLoader';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 
 const App = () => {
-	// Add new Job
-	const addJob = async (newJob) => {
-		const res = await fetch('/api/jobs', {
-			method: 'Post',
-			header: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newJob),
+	// Add new Post
+	const addPost = async (newPost) => {
+		const formData = new FormData();
+		formData.append('title', newPost.title);
+		formData.append('caption', newPost.caption);
+		if (newPost.image) {
+			formData.append('image', newPost.image);
+		}
+
+		const res = await fetch('/api/posts', {
+			method: 'POST',
+			credentials: 'include',
+			body: formData,
 		});
-		return;
+		return res.json();
 	};
 
-	// Delete Job
-	const deleteJob = async (id) => {
-		const res = await fetch(`/api/jobs/${id}`, {
+	// Delete Post
+	const deletePost = async (id) => {
+		const res = await fetch(`/api/posts/${id}`, {
 			method: 'DELETE',
+			credentials: 'include',
 		});
+		return res.json();
 	};
 
-	// Update job
-	const updateJob = async (job) => {
-		const res = await fetch(`/api/jobs/${job.id}`, {
+	// Update post
+	const updatePost = async (post) => {
+		const formData = new FormData();
+		formData.append('title', post.title);
+		formData.append('caption', post.caption);
+		if (post.image) {
+			formData.append('image', post.image);
+		}
+
+		const res = await fetch(`/api/posts/${post.id}`, {
 			method: 'PUT',
-			header: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(job),
+			credentials: 'include',
+			body: formData,
 		});
-		return;
+		return res.json();
+	};
+
+	// Like post
+	const likePost = async (id) => {
+		const res = await fetch(`/api/posts/like/${id}`, {
+			method: 'PUT',
+			credentials: 'include',
+		});
+		return res.json();
 	};
 
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path='/' element={<MainLayout />}>
 				<Route index element={<HomePage />} />
-				<Route path='/jobs' element={<JobsPage />} />
+				<Route path='/posts' element={<PostsPage />} />
 				<Route
-					path='/jobs/:id'
-					element={<JobPage deleteJob={deleteJob} />}
-					loader={JobLoader}
+					path='/posts/:id'
+					element={<PostPage deletePost={deletePost} likePost={likePost} />}
+					loader={PostLoader}
 				/>
 				<Route
-					path='/edit-job/:id'
+					path='/edit-post/:id'
 					element={
 						<ProtectedRoute>
-							<EditJobPage updateJobSubmit={updateJob} />
+							<EditPostPage updatePostSubmit={updatePost} />
 						</ProtectedRoute>
 					}
-					loader={JobLoader}
+					loader={PostLoader}
 				/>
 				<Route
-					path='/add-job'
+					path='/add-post'
 					element={
 						<ProtectedRoute>
-							<AddJobPage addJobSubmit={addJob} />
+							<AddPostPage addPostSubmit={addPost} />
 						</ProtectedRoute>
 					}
 				/>

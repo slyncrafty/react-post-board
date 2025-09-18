@@ -1,19 +1,22 @@
-import React from 'react'
+import React from 'react';
 
 import Hero from '../components/Hero';
 import HomeCards from '../components/HomeCards';
-import JobListings from '../components/JobListings';
-import ViewAllJobs from '../components/ViewAllJobs';
+import PostListings from '../components/PostListings';
+import ViewAllPosts from '../components/ViewAllPosts';
 
 const HomePage = () => {
-  return (
-    <>
-        <Hero title={"Become a React Dev"} subtitle={"Find the React job that fits your skill set"} />
-        <HomeCards />
-        <JobListings isHome={true}/>
-        <ViewAllJobs />
-    </>
-  )
-}
+	return (
+		<>
+			<Hero
+				title={'Share your Secret Recipes'}
+				subtitle={'Find the secret recipes for your favorite dishes'}
+			/>
+			<HomeCards />
+			<PostListings isHome={true} />
+			<ViewAllPosts />
+		</>
+	);
+};
 
-export default HomePage
+export default HomePage;

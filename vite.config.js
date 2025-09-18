@@ -19,10 +19,9 @@ export default defineConfig(({ mode }) => {
           target: backendUrl,
           changeOrigin: true,
         },
-        '/api/jobs': {
-          target: 'http://localhost:8000',
+        '/api/posts': {
+          target: backendUrl,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       }
     },

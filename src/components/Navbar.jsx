@@ -1,9 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
+	const navigate = useNavigate();
 	const linkClassList =
 		'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
 	const linkClass = ({ isActive }) =>
@@ -18,26 +19,38 @@ const Navbar = () => {
 					<div className='flex flex-1 items-center justify-center md:items-stretch md:justify-start'>
 						{/* <!-- Logo --> */}
 						<NavLink className='flex flex-shrink-0 items-center mr-4' to='/'>
-							<img className='h-10 w-auto' src={logo} alt='React Jobs' />
+							<img className='h-10 w-auto' src={logo} alt='Posts Logo' />
 							<span className='hidden md:block text-white text-2xl font-bold ml-2'>
-								React Jobs
+								React Recipes
 							</span>
 						</NavLink>
 						<div className='md:ml-auto'>
 							<div className='flex space-x-2 items-center'>
+								{user ? (
+									<>
+										<span className='hidden sm:inline text-white/90 mr-2'>
+											👋 Hi {user.name}, what's cooking? 🔥
+										</span>
+									</>
+								) : (
+									<span className='hidden sm:inline text-white/90 mr-2'> </span>
+								)}
 								<NavLink to='/' className={linkClass}>
 									Home
 								</NavLink>
-								<NavLink to='/jobs' className={linkClass}>
-									Job
+								<NavLink to='/posts' className={linkClass}>
+									View Recipes
 								</NavLink>
 								{user ? (
 									<>
-										<NavLink to='/add-job' className={linkClass}>
-											Add Job
+										<NavLink to='/add-post' className={linkClass}>
+											Add Post
 										</NavLink>
 										<button
-											onClick={logout}
+											onClick={async () => {
+												await logout();
+												navigate('/');
+											}}
 											className='text-white hover:bg-yellow-900 hover:text-white rounded-md px-3 py-2'>
 											Logout
 										</button>
@@ -57,7 +70,7 @@ const Navbar = () => {
 					</div>
 				</div>
 			</div>
-		</nav >
+		</nav>
 	);
 };
 

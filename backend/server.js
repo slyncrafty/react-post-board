@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import authRoutes from './routes/auth.js';
+import postsRoutes from './routes/posts.js';
 import { configurePassport } from './config/passport.js';
 
 
@@ -65,7 +66,7 @@ app.get('/api/health', (req, res) => {
 
 // Routes 
 app.use('/api/auth', authRoutes);
-// app.use('/api/jobs', jobsRoutes);
+app.use('/api/posts', postsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
