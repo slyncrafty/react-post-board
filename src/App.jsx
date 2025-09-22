@@ -18,6 +18,7 @@ import PostLoader from './components/PostLoader';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => {
 	// Add new Post
@@ -96,6 +97,14 @@ const App = () => {
 					element={
 						<ProtectedRoute>
 							<AddPostPage addPostSubmit={addPost} />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path='/profile'
+					element={
+						<ProtectedRoute>
+							<ProfilePage />
 						</ProtectedRoute>
 					}
 				/>

@@ -6,7 +6,9 @@ This is a simple recipe board demonstrating a typical CRUD workflow in React. It
 
 <!-- **Link to project**: https://your-live-demo-url.example.com -->
 
-<!-- ![App Screenshot](public/screen.png) -->
+![App Screenshot](https://github.com/slyncrafty/laughing-giggle/blob/main/img/react-screenshot.png)
+
+![App Demo](https://github.com/slyncrafty/laughing-giggle/blob/main/img/react-demo.gif)
 
 ## Tech Stack
 

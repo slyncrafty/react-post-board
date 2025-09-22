@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
@@ -19,7 +18,7 @@ const Navbar = () => {
 					<div className='flex flex-1 items-center justify-center md:items-stretch md:justify-start'>
 						{/* <!-- Logo --> */}
 						<NavLink className='flex flex-shrink-0 items-center mr-4' to='/'>
-							<img className='h-10 w-auto' src={logo} alt='Posts Logo' />
+							<img className='h-10 w-auto' src='/logo.png' alt='Posts Logo' />
 							<span className='hidden md:block text-white text-2xl font-bold ml-2'>
 								React Recipes
 							</span>
@@ -43,8 +42,8 @@ const Navbar = () => {
 								</NavLink>
 								{user ? (
 									<>
-										<NavLink to='/add-post' className={linkClass}>
-											Add Post
+										<NavLink to='/profile' className={linkClass}>
+											Profile
 										</NavLink>
 										<button
 											onClick={async () => {

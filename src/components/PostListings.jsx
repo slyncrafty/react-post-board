@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import PostListing from './PostListing';
 import Spinner from './Spinner';
 
-const PostListings = ({ isHome = false }) => {
+const PostListings = ({ isHome = false, userId = null }) => {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,12 @@ const PostListings = ({ isHome = false }) => {
 					throw new Error(`Failed to fetch posts: ${res.status}`);
 				}
 				const data = await res.json();
-				const limited = isHome ? data.slice(0, 3) : data;
+				const filtered = userId
+					? data.filter(
+							(p) => p.user && (p.user._id === userId || p.user === userId)
+					  )
+					: data;
+				const limited = isHome ? filtered.slice(0, 3) : filtered;
 				setPosts(limited);
 			} catch (err) {
 				console.log('Error fetching posts', err);
@@ -24,7 +29,7 @@ const PostListings = ({ isHome = false }) => {
 			}
 		};
 		fetchPosts();
-	}, [isHome]);
+	}, [isHome, userId]);
 
 	return (
 		<section className='bg-blue-50 px-4 py-10'>

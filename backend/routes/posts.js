@@ -86,7 +86,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     if (req.file) {
       // Delete old image from Cloudinary
       if (post.cloudinaryId) {
-        try { await cloudinary.uploader.destroy(post.cloudinaryId); } catch (e) {}
+        try { await cloudinary.uploader.destroy(post.cloudinaryId); } catch { /* noop */ }
       }
       
       const uploadResult = await cloudinary.uploader.upload(req.file.path, {
@@ -132,7 +132,7 @@ router.delete('/:id', async (req, res) => {
 
     // Delete image from Cloudinary
     if (post.cloudinaryId) {
-      try { await cloudinary.uploader.destroy(post.cloudinaryId); } catch (e) {}
+      try { await cloudinary.uploader.destroy(post.cloudinaryId); } catch { /* */ }
     }
 
     await post.deleteOne();

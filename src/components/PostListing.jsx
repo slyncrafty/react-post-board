@@ -14,15 +14,17 @@ const PostListing = ({ post }) => {
 	return (
 		<div className='bg-white rounded-xl shadow-md relative overflow-hidden'>
 			{/* Post Image */}
-			{post.image && (
-				<div className='aspect-video bg-gray-200'>
-					<img
-						src={post.image}
-						alt={post.title}
-						className='w-full h-full object-cover'
-					/>
-				</div>
-			)}
+			<div className='aspect-video bg-gray-200'>
+				<img
+					src={post.image || '/logo.png'}
+					alt={post.title}
+					className='w-full h-full object-cover'
+					onError={(e) => {
+						e.currentTarget.src = '/logo.png';
+						e.currentTarget.onerror = null;
+					}}
+				/>
+			</div>
 
 			<div className='p-4'>
 				<div className='mb-4'>

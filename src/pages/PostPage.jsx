@@ -13,10 +13,10 @@ const PostPage = ({ deletePost, likePost }) => {
 	const isOwner =
 		user && post && post.user && post.user._id?.toString() === user.id;
 
-	const onDeleteClick = (postId) => {
+	const onDeleteClick = async (postId) => {
 		const confirm = window.confirm('Are you sure to delete this post?');
 		if (!confirm) return;
-		deletePost(postId);
+		await deletePost(postId);
 		toast.success('Post deleted successfully');
 		navigate('/posts');
 	};
@@ -29,7 +29,7 @@ const PostPage = ({ deletePost, likePost }) => {
 		try {
 			const result = await likePost(postId);
 			setLikes(result.likes);
-		} catch (error) {
+		} catch {
 			toast.error('Failed to like post');
 		}
 	};
@@ -53,15 +53,17 @@ const PostPage = ({ deletePost, likePost }) => {
 						{/* <!-- Main Post Content --> */}
 						<div className='bg-white rounded-lg shadow-md overflow-hidden'>
 							{/* <!-- Post Image --> */}
-							{post.image && (
-								<div className='aspect-video bg-gray-200'>
-									<img
-										src={post.image}
-										alt={post.title}
-										className='w-full h-full object-cover'
-									/>
-								</div>
-							)}
+							<div className='aspect-video bg-gray-200'>
+								<img
+									src={post.image || '/logo.png'}
+									alt={post.title}
+									className='w-full h-full object-cover'
+									onError={(e) => {
+										e.currentTarget.src = '/logo.png';
+										e.currentTarget.onerror = null;
+									}}
+								/>
+							</div>
 
 							{/* <!-- Post Content --> */}
 							<div className='p-6'>
